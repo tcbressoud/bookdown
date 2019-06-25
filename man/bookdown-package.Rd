@@ -12,8 +12,8 @@ articles/reports with R Markdown.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/rstudio/bookdown}
-  \item Report bugs at \url{https://github.com/rstudio/bookdown/issues}
+  \item \url{https://github.com/tcbressoud/bookdown}
+  \item Report bugs at \url{https://github.com/tcbressoud/bookdown/issues}
 }
 
 }
@@ -57,6 +57,7 @@ Other contributors:
   \item Sahir Bhatnagar [contributor]
   \item Steve Simpson [contributor]
   \item Thierry Onkelinx (0000-0001-8804-4216) [contributor]
+  \item Thomas Bressoud [contributor]
   \item Vincent Fulco [contributor]
   \item Yixuan Qiu [contributor]
   \item Zhuoer Dong [contributor]

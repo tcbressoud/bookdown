@@ -36,6 +36,7 @@ pdf_book = function(
   base_format = rmarkdown::pdf_document, toc_unnumbered = TRUE,
   toc_appendix = FALSE, toc_bib = FALSE, quote_footer = NULL, highlight_bw = FALSE
 ) {
+  print("Entering function pdf_book")
   base_format = get_base_format(base_format)
   config = base_format(
     toc = toc, number_sections = number_sections, fig_caption = fig_caption,
@@ -60,7 +61,10 @@ pdf_book = function(
     }
     if (highlight_bw) x = highlight_grayscale_latex(x)
     post = getOption('bookdown.post.latex')
-    if (is.function(post)) x = post(x)
+    if (is.function(post)) {
+      print("Found bookdown.post.latex function")
+      x = post(x)
+    }
     write_utf8(x, f)
     tinytex::latexmk(
       f, config$pandoc$latex_engine,
@@ -201,12 +205,15 @@ add_toc_bib = function(x) {
 }
 
 restore_block2 = function(x, global = FALSE) {
+  print("Entering restore_block2")
   i = grep('^\\\\begin\\{document\\}', x)[1]
   if (is.na(i)) return(x)
   if (length(grep('\\\\(Begin|End)KnitrBlock', tail(x, -i))))
     x = append(x, '\\let\\BeginKnitrBlock\\begin \\let\\EndKnitrBlock\\end', i - 1)
   if (length(grep(sprintf('^\\\\BeginKnitrBlock\\{(%s)\\}', paste(all_math_env, collapse = '|')), x)) &&
-      length(grep('^\\s*\\\\newtheorem\\{theorem\\}', head(x, i))) == 0) {
+      (length(grep('^\\s*\\\\newtheorem\\{theorem\\}', head(x, i))) == 0) &&
+      (length(grep('^\\s*\\\\spdefaulttheorem', head(x, i))) == 0))
+    {
     theorem_defs = sprintf(
       '%s\\newtheorem{%s}{%s}%s', theorem_style(names(theorem_abbr)), names(theorem_abbr),
       str_trim(vapply(theorem_abbr, label_prefix, character(1), USE.NAMES = FALSE)),
